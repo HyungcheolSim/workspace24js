@@ -12,37 +12,104 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.bubble.css" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-    <link rel="stylesheet" href="/css/quillEditor.css"/>
+    <link rel="stylesheet" href="/css/quillEditor.css" />
+    <!-- <script src="./element_edit.js" /> -->
+  </head>
   <body>
+    <div id="toolbar-container">
+      <div role="toolbar" class="ql-toolbar ql-snow">
+        <div id="element_toolbar">
+          <button onclick="addTextBox()">텍스트 추가</button>
+        </div>
+      </div>
+    </div>
     <div id="editor"></div>
-    <script>
-      let toolbaroptions = [
-        ["bold", "italic", "underline", "strike", "code"], //text style
-        [{ font: [] }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }], //header for text for eg h1, h2...
-        [{ list: "ordered" }, { list: "bullet" }], //bullet points style..
-        [{ script: "sub" }, { script: "super" }, "formula"], // sub and super script..
-        [{ indent: "+1" }, { indent: "-1" }], // indentation
-        [{ align: [] }], // alignment
-        [{ size: [] }], //size
-        ["image", "link", "video"], // adding image, link, video or formula
-        [{ color: [] }, { background: [] }], // adding color and background color
-         // adding font family
-        ["code-block", "blockquote"]
-      ];
-
-      const options = {
-        // debug: "info", //이벤트 로그 찍는 용
-        modules: {
-          toolbar: toolbaroptions,
-        },
-        placeholder: "Compose Your Own Cover",
-        // readOnly: true,
-        theme: "snow",
-        syntax: true,
-        scrollingContainer: "#editor"
-      };
-      const quill = new Quill("#editor", options);
-    </script>
   </body>
+  <script>
+    let toolbaroptions = [
+      ["bold", "italic", "underline", "strike", "code"], //text style
+      [{ font: [] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }], //header for text for eg h1, h2...
+      [{ list: "ordered" }, { list: "bullet" }], //bullet points style..
+      [{ script: "sub" }, { script: "super" }, "formula"], // sub and super script..
+      [{ indent: "+1" }, { indent: "-1" }], // indentation
+      [{ align: [] }], // alignment
+      [{ size: [] }], //size
+      ["image", "link", "video"], // adding image, link, video or formula
+      [{ color: [] }, { background: [] }], // adding color and background color
+      // adding font family
+      ["code-block", "blockquote"],
+    ];
+
+    const options = {
+      // debug: "info", //이벤트 로그 찍는 용
+      modules: {
+        toolbar: toolbaroptions,
+      },
+      placeholder: "Compose Your Own Cover",
+      // readOnly: true,
+      theme: "snow",
+      syntax: true,
+      scrollingContainer: "#editor",
+    };
+    const quill = new Quill("#editor", options);
+
+    document.addEventListener("DOMContentLoaded", (event) => {
+      const container = document.getElementById("editor");
+      var items = container.childNodes;
+      console.log(items);
+      var active = false;
+      var currentX;
+      var currentY;
+      var initialX;
+      var initialY;
+      var xOffset = 0;
+      var yOffset = 0;
+
+      for (let item of items) {
+        item.addEventListener("dblclick", setXY);
+      }
+    });
+
+    function addTextBox() {
+      const textBox = document.createElement("div");
+      textBox.className = "text-box";
+      textBox.style.height = "50px";
+      textBox.style.width = "100px";
+      textBox.style.border = "1px dotted black";
+      textBox.contentEditable = true;
+
+      const editorContainer = document.createElement("div");
+      textBox.appendChild(editorContainer);
+      setDragEventListners(textBox);
+      document.getElementById("editor").appendChild(textBox);
+    }
+    function turnDrag(element) {
+      let isDrag = element.draggable;
+      if (!isDrag) {
+        console.log("Drag ON");
+        element.draggable = true;
+      } else {
+        console.log("Drag OFF");
+        element.draggable = false;
+      }
+    }
+    function setDragEventListners(element) {
+      element.addEventListener("dragstart", (e) => {
+        console.log("드래그를 시작하면 발생하는 이벤트");
+      });
+      element.addEventListener("drag", (e) => {
+        console.log("드래그하면 발생하는 이벤트");
+      });
+      element.addEventListener("dragend", (e) => {
+        console.log("드래그를 끝나면 발생하는 이벤트");
+        turnDrag(element);
+      });
+    }
+    function setXY(e) {
+      console.log("setFirstPosition" + initialX + " " + initialY);
+      initialX = e.touches[0].clientX - xOffset;
+      initialY = e.touches[0].clientY - yOffset;
+    }
+  </script>
 </html>
