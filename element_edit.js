@@ -58,48 +58,48 @@ function makeDraggable(element) {
           draggable.addEventListener("mousemove", drag);
           draggable.addEventListener("mouseup", stopDrag);
         }
-      }
-      function startDrag(e) {
-        console.log("dblclicked");
-        isDragging = true;
-        currentDraggable = e.target;
-        startX = e.clientX;
-        startY = e.clientY;
-        startLeft = parseInt(window.getComputedStyle(currentDraggable).left, 10);
-        startTop = parseInt(window.getComputedStyle(currentDraggable).top, 10);
-  
-        // 드래그 중인 요소를 최상위로 가져오기
-        currentDraggable.style.zIndex = "1000";
-      }
-  
-      function drag(e) {
-        console.log("in dragging");
-        if (!isDragging) return;
-  
-        e.preventDefault();
-  
-        let newX = e.clientX;
-        let newY = e.clientY;
-  
-        let deltaX = newX - startX;
-        let deltaY = newY - startY;
-  
-        let newLeft = startLeft + deltaX;
-        let newTop = startTop + deltaY;
-  
-        // 에디터 영역을 벗어나지 않도록 제한
-        const editorRect = editor.getBoundingClientRect();
-        const draggableRect = currentDraggable.getBoundingClientRect();
-  
-        newLeft = Math.max(0, Math.min(newLeft, editorRect.width - draggableRect.width));
-        newTop = Math.max(0, Math.min(newTop, editorRect.height - draggableRect.height));
-  
-        currentDraggable.style.left = newLeft + "px";
-        currentDraggable.style.top = newTop + "px";
-      }
-  
-      function stopDrag(e) {
-        
+    }
+    function startDrag(e) {
+      console.log("dblclicked");
+      isDragging = true;
+      currentDraggable = e.target;
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = parseInt(window.getComputedStyle(currentDraggable).left, 10);
+      startTop = parseInt(window.getComputedStyle(currentDraggable).top, 10);
+
+      // 드래그 중인 요소를 최상위로 가져오기
+      currentDraggable.style.zIndex = "1000";
+    }
+
+    function drag(e) {
+      console.log("in dragging");
+      if (!isDragging) return;
+
+      e.preventDefault();
+
+      let newX = e.clientX;
+      let newY = e.clientY;
+
+      let deltaX = newX - startX;
+      let deltaY = newY - startY;
+
+      let newLeft = startLeft + deltaX;
+      let newTop = startTop + deltaY;
+
+      // 에디터 영역을 벗어나지 않도록 제한
+      const editorRect = editor.getBoundingClientRect();
+      const draggableRect = currentDraggable.getBoundingClientRect();
+
+      newLeft = Math.max(0, Math.min(newLeft, editorRect.width - draggableRect.width));
+      newTop = Math.max(0, Math.min(newTop, editorRect.height - draggableRect.height));
+
+      currentDraggable.style.left = newLeft + "px";
+      currentDraggable.style.top = newTop + "px";
+    }
+
+    function stopDrag(e) {
+      
       if (!isDragging) return;
 
       isDragging = false;
@@ -153,7 +153,6 @@ function makeDraggable(element) {
       yOffset = currentY;
     }
   }
-});
 container.addEventListener("dblclick", setXY, false);
 container.addEventListener("touchend", dragEnd, false);
 container.addEventListener("touchmove", drag, false);
@@ -161,4 +160,3 @@ container.addEventListener("touchmove", drag, false);
 container.addEventListener("mousedown", dragStart, false);
 container.addEventListener("mouseup", dragEnd, false);
 container.addEventListener("mousemove", drag, false);
-}
