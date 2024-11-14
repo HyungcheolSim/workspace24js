@@ -29,9 +29,11 @@
       href="https://ckeditor.com/assets/images/favicons/180x180.png"
       sizes="180x180"
     />
+    <!-- autoCompleteField -->
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./ckeditor5/ckeditor5.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="./customeditor.js"></script>
   </head>
   <body>
     <div>
@@ -40,7 +42,7 @@
           class="editor-container editor-container_document-editor editor-container_include-style"
           id="editor-container"
         >
-          <div class="editor-container__menu-bar" id="editor-menu-bar"></div>
+          <div class="editor-container__menu-bar" id="editor-menu-bar"> </div>
           <div class="editor-container__toolbar" id="editor-toolbar"></div>
           <div class="editor-container__editor-wrapper">
             <div class="editor-container__editor"><div id="editor"></div></div>
@@ -50,7 +52,11 @@
     </div>
     <div style="align-content: center">
       <button id="btn pdf" onclick="saveAsHtml()">HTML 저장</button>
-      <button id="btn pdf" onclick="saveAsPdf()">PDF 저장</button>
+      <button onclick="saveAsPdf()">PDF 저장</button>
+      <label class="switch">
+        <input type="checkbox" />
+        <span id="slider round" class="slider round" onmouseup="toggleListener()"></span>
+      </label>
     </div>
     <script type="importmap">
       {
@@ -63,43 +69,49 @@
     <script type="module" src="./main.js"></script>
     <!-- A friendly reminder to run on a server, remove this during the integration. -->
     <script>
+      let id = Number(0);
+      let isActive = false;
       window.onload = function () {
         if (window.location.protocol === "file:") {
           alert("This sample requires an HTTP server. Please serve this file with a web server.");
         }
       };
-    </script>
-    <script>
-      function saveAsHtml() {
-        const container = document.getElementById("editor");
-        const content = container.innerHTML; // div의 HTML 내용을 가져옴
 
-        // Blob을 생성하여 파일로 변환
-        const blob = new Blob([content], { type: "text/html" });
-        const url = URL.createObjectURL(blob);
-
-        // 다운로드 링크 생성 및 자동 클릭
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "cover.html"; // 다운로드할 파일 이름 지정
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        // URL 객체 해제
-        URL.revokeObjectURL(url);
+      function getCurrentEditor() {
+        return document.getElementById("editor");
       }
 
-      function saveAsPdf() {
-        const container = document.getElementById("editor");
-        const content = container.innerHTML; // div의 HTML 내용을 가져옴
+      function toggleListener() {
+        isActive = !isActive;
+        let editorElement = getCurrentEditor();
+        if (isActive) {
+          editorElement.addEventListener("mouseup", dragEvent);
+        } else {
+          editorElement.removeEventListener("mouseup", dragEvent);
+        }
+      }
 
-        // Blob을 생성하여 파일로 변환
-        const blob = new Blob([content], { type: "text/html" });
-        const doc = new jsPDF("p", "mm", "a4");
-		const url = URL.createObjectURL(blob);
-        doc.URL = url;
-        doc.save("cover.pdf");
+      function dragEvent() {
+        console.log("실행");
+        const commonAncestor = window.getSelection().getRangeAt(0).commonAncestorContainer;
+        let editorElement = getCurrentEditor();
+        if (editorElement.contains(commonAncestor)) {
+          console.log("안입니다!" + commonAncestor.nodeType);
+          let parentNode = commonAncestor.parentElement;
+          //요소 내부 text 읽기
+          let newNode = parentNode;
+          //요소에 클래스, id 설정
+          let className = "autoCompleteField";
+          newNode.classList.add(className);
+          let nodeId = "V_" + id++;
+          newNode.setAttribute("id", nodeId);
+          console.log("bf " + newNode.textContent);
+          newNode.textContent = "하이";
+          console.log("After " + newNode.textContent);
+        }
+        // let temp = document.getElementById(newNode.getAttribute("id"));
+        // temp.innerText = "hi";
+        //parentNode.replaceChild(newNode.firstChild, parentNode.firstChild);
       }
     </script>
   </body>
