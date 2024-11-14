@@ -55,7 +55,7 @@
       <button onclick="saveAsPdf()">PDF 저장</button>
       <label class="switch">
         <input type="checkbox" />
-        <span id="slider round" class="slider round" onclick="toggleListener()"></span>
+        <span id="slider round" class="slider round" onmouseup="toggleListener()"></span>
       </label>
     </div>
     <script type="importmap">
@@ -85,22 +85,18 @@
         isActive = !isActive;
         let editorElement = getCurrentEditor();
         if (isActive) {
-          
-          editorElement.addEventListener("mouseup", addDragEvent());
-          console.log("이벤트 생성");
+          editorElement.addEventListener("mouseup", dragEvent);
         } else {
-          editorElement.removeEventListener("mouseup", addDragEvent());
-          console.log("이벤트 삭제");
+          editorElement.removeEventListener("mouseup", dragEvent);
         }
       }
 
-      function addDragEvent() {
+      function dragEvent() {
+        console.log("실행");
         const commonAncestor = window.getSelection().getRangeAt(0).commonAncestorContainer;
-        // 선택된 범위의 바깥 HTML 요소 가져오기
-        const editorElement = document.getElementById("editor");
+        let editorElement = getCurrentEditor();
         if (editorElement.contains(commonAncestor)) {
-
-          console.log("안입니다!"+commonAncestor.nodeType);
+          console.log("안입니다!" + commonAncestor.nodeType);
           let parentNode = commonAncestor.parentElement;
           //요소 내부 text 읽기
           let newNode = parentNode;
