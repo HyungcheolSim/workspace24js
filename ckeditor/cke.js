@@ -23,11 +23,7 @@ ClassicEditor.create(document.querySelector("#editor"), {
     ],
   },
   fontFamily: {
-    options: [
-      "default",
-      "Ubuntu, Arial, sans-serif",
-      "Ubuntu Mono, Courier New, Courier, monospace",
-    ],
+    options: ["default", "Ubuntu, Arial, sans-serif", "Ubuntu Mono, Courier New, Courier, monospace"],
   },
   fontColor: {
     colorPicker: {

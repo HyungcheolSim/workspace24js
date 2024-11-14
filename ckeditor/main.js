@@ -50,9 +50,9 @@ import {
   Title,
   Underline,
   Undo,
-} from "ckeditor5";
+} from "../real/ckeditor5-43.3.1/ckeditor5/ckeditor5";
 
-import "ckeditor5/ckeditor5.css";
+import "../real/ckeditor5-43.3.1/ckeditor5/ckeditor5.css";
 
 import "./style.css";
 

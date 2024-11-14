@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CKEditor 5 Sample</title>
+    <link rel="icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/96x96.png" sizes="96x96" />
+    <link
+      rel="apple-touch-icon"
+      type="image/png"
+      href="https://ckeditor.com/assets/images/favicons/120x120.png"
+      sizes="120x120"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/png"
+      href="https://ckeditor.com/assets/images/favicons/152x152.png"
+      sizes="152x152"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/png"
+      href="https://ckeditor.com/assets/images/favicons/167x167.png"
+      sizes="167x167"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/png"
+      href="https://ckeditor.com/assets/images/favicons/180x180.png"
+      sizes="180x180"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./ckeditor5/ckeditor5.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <div class="main-container">
+        <div
+          class="editor-container editor-container_document-editor editor-container_include-style"
+          id="editor-container"
+        >
+          <div class="editor-container__menu-bar" id="editor-menu-bar"></div>
+          <div class="editor-container__toolbar" id="editor-toolbar"></div>
+          <div class="editor-container__editor-wrapper">
+            <div class="editor-container__editor"><div id="editor"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="align-content: center">
+      <button id="btn pdf" onclick="saveAsHtml()">HTML 저장</button>
+      <button id="btn pdf" onclick="saveAsPdf()">PDF 저장</button>
+    </div>
+    <script type="importmap">
+      {
+        "imports": {
+          "ckeditor5": "./ckeditor5/ckeditor5.js",
+          "ckeditor5/": "./ckeditor5/"
+        }
+      }
+    </script>
+    <script type="module" src="./main.js"></script>
+    <!-- A friendly reminder to run on a server, remove this during the integration. -->
+    <script>
+      window.onload = function () {
+        if (window.location.protocol === "file:") {
+          alert("This sample requires an HTTP server. Please serve this file with a web server.");
+        }
+      };
+    </script>
+    <script>
+      function saveAsHtml() {
+        const container = document.getElementById("editor");
+        const content = container.innerHTML; // div의 HTML 내용을 가져옴
+
+        // Blob을 생성하여 파일로 변환
+        const blob = new Blob([content], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+
+        // 다운로드 링크 생성 및 자동 클릭
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "cover.html"; // 다운로드할 파일 이름 지정
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // URL 객체 해제
+        URL.revokeObjectURL(url);
+      }
+
+      function saveAsPdf() {
+        const container = document.getElementById("editor");
+        const content = container.innerHTML; // div의 HTML 내용을 가져옴
+
+        // Blob을 생성하여 파일로 변환
+        const blob = new Blob([content], { type: "text/html" });
+        const doc = new jsPDF("p", "mm", "a4");
+		const url = URL.createObjectURL(blob);
+        doc.URL = url;
+        doc.save("cover.pdf");
+      }
+    </script>
+  </body>
+</html>
