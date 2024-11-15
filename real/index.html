@@ -5,59 +5,14 @@
     <title>CKEditor 5 Sample</title>
     <link rel="icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/96x96.png" sizes="96x96" />
-    <link
-      rel="apple-touch-icon"
-      type="image/png"
-      href="https://ckeditor.com/assets/images/favicons/120x120.png"
-      sizes="120x120"
-    />
-    <link
-      rel="apple-touch-icon"
-      type="image/png"
-      href="https://ckeditor.com/assets/images/favicons/152x152.png"
-      sizes="152x152"
-    />
-    <link
-      rel="apple-touch-icon"
-      type="image/png"
-      href="https://ckeditor.com/assets/images/favicons/167x167.png"
-      sizes="167x167"
-    />
-    <link
-      rel="apple-touch-icon"
-      type="image/png"
-      href="https://ckeditor.com/assets/images/favicons/180x180.png"
-      sizes="180x180"
-    />
+    <link rel="apple-touch-icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/120x120.png" sizes="120x120" />
+    <link rel="apple-touch-icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/152x152.png" sizes="152x152" />
+    <link rel="apple-touch-icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/167x167.png" sizes="167x167" />
+    <link rel="apple-touch-icon" type="image/png" href="https://ckeditor.com/assets/images/favicons/180x180.png" sizes="180x180" />
     <!-- autoCompleteField -->
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./ckeditor5/ckeditor5.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="./customeditor.js"></script>
-  </head>
-  <body>
-    <div>
-      <div class="main-container">
-        <div
-          class="editor-container editor-container_document-editor editor-container_include-style"
-          id="editor-container"
-        >
-          <div class="editor-container__menu-bar" id="editor-menu-bar"> </div>
-          <div class="editor-container__toolbar" id="editor-toolbar"></div>
-          <div class="editor-container__editor-wrapper">
-            <div class="editor-container__editor"><div id="editor"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div style="align-content: center">
-      <button id="btn pdf" onclick="saveAsHtml()">HTML 저장</button>
-      <button onclick="saveAsPdf()">PDF 저장</button>
-      <label class="switch">
-        <input type="checkbox" />
-        <span id="slider round" class="slider round" onmouseup="toggleListener()"></span>
-      </label>
-    </div>
     <script type="importmap">
       {
         "imports": {
@@ -67,52 +22,36 @@
       }
     </script>
     <script type="module" src="./main.js"></script>
+    <script src="./customeditor.js"></script>
+  </head>
+  <body>
+    <div>
+      <div class="main-container">
+        <div class="editor-container editor-container_document-editor editor-container_include-style" id="editor-container">
+          <div class="editor-container__menu-bar" id="editor-menu-bar"> </div>
+          <div class="editor-container__toolbar" id="editor-toolbar"></div>
+          <div class="editor-container__editor-wrapper">
+            <div class="editor-container__editor"><div id="editor"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="align-content: center">
+      <button id="btn pdf" onclick="variablesToText()">HTML 저장</button>
+      <button onclick="saveAsPdf()">PDF 저장</button>
+      <label class="switch">
+        <input type="checkbox" />
+        <span id="slider round" class="slider round" onmouseup="toggleListener()"></span>
+      </label>
+    </div>
+    
     <!-- A friendly reminder to run on a server, remove this during the integration. -->
     <script>
-      let id = Number(0);
-      let isActive = false;
       window.onload = function () {
         if (window.location.protocol === "file:") {
           alert("This sample requires an HTTP server. Please serve this file with a web server.");
         }
       };
-
-      function getCurrentEditor() {
-        return document.getElementById("editor");
-      }
-
-      function toggleListener() {
-        isActive = !isActive;
-        let editorElement = getCurrentEditor();
-        if (isActive) {
-          editorElement.addEventListener("mouseup", dragEvent);
-        } else {
-          editorElement.removeEventListener("mouseup", dragEvent);
-        }
-      }
-
-      function dragEvent() {
-        console.log("실행");
-        const commonAncestor = window.getSelection().getRangeAt(0).commonAncestorContainer;
-        let editorElement = getCurrentEditor();
-        if (editorElement.contains(commonAncestor)) {
-          console.log("안입니다!" + commonAncestor.nodeType);
-          let parentNode = commonAncestor.parentElement;
-          //요소 내부 text 읽기
-          let newNode = parentNode;
-          //요소에 클래스, id 설정
-          let className = "autoCompleteField";
-          newNode.classList.add(className);
-          let nodeId = "V_" + id++;
-          newNode.setAttribute("id", nodeId);
-          console.log("bf " + newNode.textContent);
-          newNode.textContent = "하이";
-          console.log("After " + newNode.textContent);
-        }
-        // let temp = document.getElementById(newNode.getAttribute("id"));
-        // temp.innerText = "hi";
-        //parentNode.replaceChild(newNode.firstChild, parentNode.firstChild);
-      }
     </script>
   </body>
 </html>
