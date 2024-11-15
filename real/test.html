@@ -2,10 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>HTML File Upload</title>
 </head>
 <body>
-    <p>하이</p>
+    <input type="file" id="fileInput" accept=".html">
+    <div id="editor" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+        <!-- HTML content will be loaded here -->
+    </div>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('editor').innerHTML = event.target.result;
+                };
+                reader.readAsText(file);
+            } else {
+                alert('No file selected.');
+            }
+        });
+    </script>
 </body>
 </html>

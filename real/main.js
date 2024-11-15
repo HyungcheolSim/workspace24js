@@ -206,24 +206,24 @@ const editorConfig = {
     Underline,
     Undo,
   ],
-  balloonToolbar: ["bold", "italic", "|", "link", "insertImage", "|", "bulletedList", "numberedList"],
-  blockToolbar: [
-    "fontSize",
-    "fontColor",
-    "fontBackgroundColor",
-    "|",
-    "bold",
-    "italic",
-    "|",
-    "link",
-    "insertImage",
-    "insertTable",
-    "|",
-    "bulletedList",
-    "numberedList",
-    "outdent",
-    "indent",
-  ],
+  // balloonToolbar: ["bold", "italic", "|", "link", "insertImage", "|", "bulletedList", "numberedList"],
+  // blockToolbar: [
+  //   "fontSize",
+  //   "fontColor",
+  //   "fontBackgroundColor",
+  //   "|",
+  //   "bold",
+  //   "italic",
+  //   "|",
+  //   "link",
+  //   "insertImage",
+  //   "insertTable",
+  //   "|",
+  //   "bulletedList",
+  //   "numberedList",
+  //   "outdent",
+  //   "indent",
+  // ],
   fontFamily: {
     supportAllValues: true,
   },
@@ -298,7 +298,7 @@ const editorConfig = {
       "resizeImage",
     ],
   },
-  initialData: "양식",
+  //initialData: "",
   language: "ko",
   link: {
     addTargetToExternalLinks: true,
@@ -320,20 +320,10 @@ const editorConfig = {
       reversed: true,
     },
   },
-  mention: {
-    feeds: [
-      {
-        marker: "@",
-        feed: [
-          /* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
-        ],
-      },
-    ],
-  },
   menuBar: {
     isVisible: true,
   },
-  placeholder: "Type or paste your content here!",
+  placeholder: " ",
   style: {
     definitions: [
       {
